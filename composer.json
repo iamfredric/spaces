@@ -15,7 +15,8 @@
         }
     ],
     "require": {
-        "php": "^7.4"
+        "php": "^7.4",
+        "aws/aws-sdk-php": "^3.0@dev"
     },
     "require-dev": {
         "phpunit/phpunit": "^9.1"
@@ -25,11 +26,10 @@
             "Iamfredric\\Spaces\\": "src/"
         }
     },
-    "autoload": {
+    "autoload-dev": {
         "psr-4": {
             "Iamfredric\\Tests\\Spaces\\": "tests/"
         }
     },
-    "minimum-stability": "dev",
-    "require": {}
+    "minimum-stability": "dev"
 }
