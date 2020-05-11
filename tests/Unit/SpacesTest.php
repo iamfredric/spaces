@@ -2,37 +2,41 @@
 
 namespace Iamfredric\Tests\Spaces\Unit;
 
+use Aws\CommandInterface;
+use Aws\S3\S3Client;
 use Iamfredric\Spaces\Spaces;
+use Mockery\Mock;
 use PHPUnit\Framework\TestCase;
+use Psr\Http\Message\RequestInterface;
+use Psr\Http\Message\UriInterface;
 
 class SpacesTest extends TestCase
 {
     /** @test */
     function it_creates_a_signed_upload_url_to_digital_ocean_spaces()
     {
-        // Todo: mock guzzle
+        $client = \Mockery::mock(S3Client::class);
+        $commandInterface = \Mockery::mock(CommandInterface::class);
+        $requestInterface = \Mockery::mock(RequestInterface::class);
+        $uriInterface = \Mockery::mock(UriInterface::class);
 
-        $spaces = new Spaces($bucket = 'testbucket', $region = 'eu1', $key = 'TEST_KEY', $secret = 'VERY_SECRET');
+        $client->shouldReceive('createPresignedRequest')->andReturn($requestInterface);
+        $client->shouldReceive('getCommand')->andReturn($commandInterface);
 
-        // Visibility
-        // content_type
-        // cache_control
-        // Expires
-        // Todo: Expect stuff
+        $requestInterface->shouldReceive('getUri')->andReturn($uriInterface);
+        $uriInterface->shouldReceive('getHost')->andReturn('region.example.com/');
+        $uriInterface->shouldReceive('getPath')->andReturn('the-path');
+        $uriInterface->shouldReceive('getQuery')->andReturn('test=running&testcoverage=somewhat');
+        $requestInterface->shouldReceive('getHeaders')->andReturn(['Authorization' => 'Bearer TOKEN']);
+
+        $spaces = new Spaces($client, 'me-bucket');
+
+        $array = $spaces->sign();
+
+        $this->assertEquals('https://region.example.com/the-path?test=running&testcoverage=somewhat', $array['url']);
         $this->assertEquals([
-//            'id' => $uuid,
-//            'bucket' => $bucket,
-//            'key' => $key,
-//            'url' => 'https://'.$uri->getHost().$uri->getPath().'?'.$uri->getQuery(),
-//            'headers' => $this->headers($request, $signedRequest),
-        ], $spaces->sign($visibility = 'private', $contentType = 'application/octet-stream', $cacheControl = null, $expires = null)->toArray());
+            'Authorization' => 'Bearer TOKEN',
+            'Content-Type' => 'application/octet-stream'
+        ], $array['headers']);
     }
-
-    /** @test */
-    function it_creates_a_signe_upload_url_to_aws()
-    {
-        // Todo
-    }
-
-    // Test validation
 }
