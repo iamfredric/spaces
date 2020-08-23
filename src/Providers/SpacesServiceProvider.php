@@ -5,7 +5,7 @@ namespace Iamfredric\Spaces\Providers;
 use Aws\S3\S3Client;
 use Iamfredric\Spaces\Spaces;
 
-class SpacesServiceProvider extends Illuminate\Support\ServiceProvider
+class SpacesServiceProvider extends \Illuminate\Support\ServiceProvider
 {
     public function register()
     {
