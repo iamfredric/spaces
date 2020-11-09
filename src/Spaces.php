@@ -35,7 +35,8 @@ class Spaces
                     'key'    => $config['key'],
                     'secret' => $config['secret']
                 ]
-            ], $config['bucket'])
+            ]),
+            $config['bucket']
         );
     }
 
