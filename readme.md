@@ -1,18 +1,17 @@
 # Spaces
 
-### Table of contents 
+### Table of contents
 1. Requirements
 1. What is this
 1. How do I use it?
-1. Laravel integration 
+1. Laravel integration
 1. Contributing
 
 ### Requirements
-You will need to use php 7.4 or above. 
- 
+You will need to use php 7.4 or above.
+
 ### What's this?
-This is a simple package for uploading files to Digital Ocean Spaces or S3.  
-It is shipped in two parts, this and the front end package [spaces-js](https://github.com/iamfredric/spaces-js) (```yarn add spaces```) 
+This is a simple package for signing urls for uploads to DigitalOcean Spaces and AWS s3.
 
 ### How do I use it?
 ```
@@ -40,13 +39,13 @@ $response = $spaces->sign();
 ```
 
 ### How do I use it with Laravel?
-This one ships ready for Laravel. 
+This one ships ready for Laravel.
 
 ```
 composer require iamfredric/spaces
 ```
 
-The configurations is per default set to filesystems.disks.s3 if you want to use anyother configurations, define this in filesystem.spaces_key. 
+The configurations is per default set to filesystems.disks.s3 if you want to use anyother configurations, define this in filesystem.spaces_key.
 The required params is region, endpoint, key, secret, and bucket
 
 ```php
@@ -61,5 +60,3 @@ class StorageController
     }
 }
 ```
-
-### How can I contribute?
